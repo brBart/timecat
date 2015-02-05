@@ -41,7 +41,8 @@ $helpfile = array (
 		   "duration" => "The duration in hours.  The system rounds to the nearest tenth of an hour. If you are entering the duration, leave start and end time blank.",
 		   "start_time" => "The start time, in 24 hour format, colon is optional. Time is rounded up to the next tenth of an hour (i.e., 7 minutes is 0.2 hours).  You cannot also enter a duration, since the system automatically calcluates duration from the start and end time if they are entered.",
 		   "end_time" => "The end time, in 24 hour format, colon is optional. Time is rounded up to the next tenth of an hour (i.e., 7 minutes is 0.2 hours). You cannot also enter a duration, since the system automatically calcluates duration from the start and end time if they are entered.",
-		   "register_payment" => "This amount is added to the &quot;Amount Paid&quot; above. A negative value can be used to reduce the amount paid, for example to correct an erroneous payment entry."
+		   "register_payment" => "This amount is added to the &quot;Amount Paid&quot; above. A negative value can be used to reduce the amount paid, for example to correct an erroneous payment entry.",
+		   "upload_clients" => "The uploaded file should be a comma-delimited values (CSV) file, which can be created in software such as Microsoft Excel. It should have no column headers, with each client on a new line, and data in the following columns: The client name, client email, client contact first name, client contact last name, address line one, address line two, city, state, zipcode. Note that this is a different column format than timecat's export function. "
 		   );
 
 

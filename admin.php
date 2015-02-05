@@ -104,11 +104,46 @@ foreach ( $row as $lt_header => $lt_row_item ) {
 </table>
 </div>
 <p>
-<form method=POST>
+<div class="RoundTableNoHeader" style="display:table;"><table><tr><td>
+<form method="POST">
+  Click here to export client information as a CSV file:<p>
 <input type=submit name="export_clients" value = "Export Clients">
 </form>
+</td></tr></table></div>
+<p>
+<div class="RoundTableNoHeader" style="display:table;"><table><tr><td>
+  Import from a CSV file<? echo help_link ("upload_clients"); ?>:<p>
+<form method="POST" enctype="multipart/form-data">
+<input type="file" name="client_import_file">
+<input type=submit name="import_clients" value = "Import Clients">
+</form>
+</td></tr></table></div>
+
+<?
+
+if ( $import_clients  == "Import Clients" ) {
+  $row = 1;
+  if (($handle = fopen($_FILES['client_import_file']['tmp_name'], "r")) !== FALSE) {
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+      $client_name =  pg_escape_string ( trim ( $data[0], ", \t\n\r\0\x0B" ) );
+      $email =  pg_escape_string ( trim ( $data[1], ", \t\n\r\0\x0B" ) );
+      $firstname =  pg_escape_string ( trim ( $data[2], ", \t\n\r\0\x0B" ) );
+      $lastname  =  pg_escape_string ( trim ( $data[3], ", \t\n\r\0\x0B" ) );
+      $address1 =  pg_escape_string ( trim ( $data[4], ", \t\n\r\0\x0B" ) );
+      $address2 =  pg_escape_string ( trim ( $data[5], ", \t\n\r\0\x0B" ) );
+      $city =  pg_escape_string ( trim ( $data[6], ", \t\n\r\0\x0B" ) );
+      $state =  pg_escape_string ( trim ( $data[7], ", \t\n\r\0\x0B" ) );
+      $zip =  pg_escape_string ( trim ( $data[8], ", \t\n\r\0\x0B" ) );
+      if ( $zip == null ) $zip = 0;
+
+      $insert_sql = "INSERT INTO client ( client_name, email, contact_first, contact_last, address1, address2, city, state, zipcode, current_client ) VALUES ( '$client_name', '$email', '$firstname', '$lastname', '$address1', '$address2', '$city', '$state', $zip, 't')";
+      $ret_val = pg_query ( $insert_sql );
+      if ( $ret_val != FALSE ) echo "<br>Imported $client_name";
+    }
+    fclose($handle);
+  } else echo "Could not open file.";
+
+}
 
 
-
-
-<? include_once ("footer.php"); ?>
+ include_once ("footer.php"); ?>
