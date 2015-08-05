@@ -28,7 +28,7 @@ if ( $_POST['AddClient'] == "Add"  ) {
   if ( !$client_insert_result ) {
     echo "<p><b>Adding client failed.</b> with SQL: </b>$insert_sql<p>";
   } else {
-    echo "<p><b>client " . $_POST['client_name'] . " successfully added.</b><p>";
+    echo "<p><b>Client " . $_POST['client_name'] . " successfully added.</b><p>";
   }
   
 }   
