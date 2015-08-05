@@ -23,7 +23,7 @@ $client_name = getClientForInvoiceNumber ( $invoice_no );
 
 $client_name = str_replace(' ', '_', $client_name);
 
-$filename = Slug ( $_SESSION['company'] . "_invoice_" . $invoice_no . " (" . $client_name . ")" );
+$filename = Slug ( $_SESSION['company'] . "_invoice_" . $invoice_no . " (" . $client_name . ")" ) . ".pdf";
 
 if ( $action == "dl" ) {
   header('Content-Disposition: attachment; filename=' . basename($filename));
