@@ -3,7 +3,7 @@ $pagename = "view_invoices";
 require_once ("./login_check.php");
 $output_csv = false;
 if ($_POST['output_csv'] == "on")  $output_csv = true; 
-
+$only_unpaid="on";
 if ( !$output_csv ) {
 include_once ("./header.php");
 include_once "client_list_javascript.php";
@@ -16,7 +16,6 @@ foreach ($_POST as $param_name => $param_val) {
 foreach ($_POST as $param_name => $param_val) {
   ${$param_name."_html"} = $param_val;
 } 
-
 
 if ( $login_id != "" ) $username = $login_id; else $username=$_SESSION['user']; 
 if ( !$output_csv ) {
@@ -39,7 +38,7 @@ if ( !$output_csv ) {
 <?
 }
 
-if ( $_POST['ViewInvoice'] == "View" || $view_invoice_no != null || $output_csv ) {
+if ( $_POST['ViewInvoice'] == "View" || $view_invoice_no != null || $output_csv || $only_unpaid=="on" ) {
   if  ( $view_invoice_no != null ) $invoice_no = $view_invoice_no; // this is if this is called after create_invoice.php
   if ( $invoice_no != null ) {
     if ( ! is_numeric ($invoice_no ) ) {  // only processing single values now

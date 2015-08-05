@@ -2,7 +2,7 @@
 $pagename = "view_time";
 include_once ("./header.php");
 include_once "client_list_javascript.php";
-
+$unbilled="on"; $email=$_SESSION['email']; // default values if nothing posted
 foreach ($_POST as $param_name => $param_val) {
   $$param_name = pg_escape_string ($param_val);
 } 
@@ -45,8 +45,8 @@ if ( $_SESSION['administrator']) {
 
   $total_duration = 0;
 
-if ( $_POST['ViewTime'] == "View" ) {
-  if ( ( $username != $_SESSION['email'] ) &! $_SESSION['administrator'] ) {
+
+  if ( ( $email != $_SESSION['email'] ) &! $_SESSION['administrator'] ) {
     echo "<p><b>Non-administrator may only access his/her own time.</b>";
     include_once ("footer.php");
     exit();
@@ -72,7 +72,6 @@ if ( $_POST['ViewTime'] == "View" ) {
   if ( $end_date != "" ) {
     if ( $first_condition_set )  $select_time_sql .= " AND"; else  $select_time_sql .= " WHERE";
     $select_time_sql .= " date <= '$end_date'";
-    
   }
 
   if ( $unbilled == "on" ) {
@@ -82,7 +81,7 @@ if ( $_POST['ViewTime'] == "View" ) {
 
   $select_time_sql .= " ORDER BY  date, invoice_no, timekeeper_email, entryid";
   echo "<p>";
-  // echo "Your SQL is: <pre>$select_time_sql</pre>"; // useful for debug
+// echo "Your SQL is: <xmp>$select_time_sql</xmp>"; // useful for debug
   $viewtime_result = pg_query ($select_time_sql);
   echo "<div class=\"RoundTable\" >";
   echo "<table width=100%><form action = \"./process_timeentries.php\" method=POST>";
@@ -117,7 +116,7 @@ if ( $_POST['ViewTime'] == "View" ) {
     echo "</form></td></tr></table>";
     echo "</div>";
   }
-}
+
 
 include_once ("footer.php");
 
