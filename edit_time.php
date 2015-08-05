@@ -2,7 +2,7 @@
 require_once ("./header.php");
  
 $entryid = intval ($_GET['id'] );
-
+require "client_list_javascript.php";
 if ( $_POST['edit_time'] == "Modify" ) {  // processing data submitted by this form
   $update_sql = "UPDATE timeentry SET ";
   
@@ -59,8 +59,8 @@ foreach ( $entry_row as $lt_header => $lt_row_item ) {
 <tr><td>Matter  <? echo (help_link ("matter" ));  ?></td><td><input type = "text" name ="matter_id" value="<? echo $matter_id ?>"></td></tr>
 <tr><td>Timekeeper</td><td><input type = "text" name ="timekeeper_email" value="<? echo $timekeeper_email ?>"></td></tr>
 <tr><td>Writeoff <? echo (help_link ("writeoff" ));  ?></td><td><input type = "text" name ="writeoff" value="<? echo $writeoff ?>"></td></tr>
-<tr><td>Date</td><td><input type = "text" name ="date" value="<? echo $date ?>"></td></tr>
-<tr><td>Client Name</td><td><input type = "text" name ="client_name" value="<? echo $client_name ?>"></td></tr>
+<tr><td>Date</td><td><input id="datepicker" type = "text" name ="date" value="<? echo $date ?>"></td></tr>
+<tr><td>Client Name</td><td><input type = "text" name ="client_name" id="tags" value="<? echo $client_name ?>"></td></tr>
 <tr><td>Description</td><td><textarea name ="description" rows=4 cols=40><? echo $description ?></textarea></td></tr>
 <tr><td>Notes <? echo (help_link ("notes" ));  ?></td><td><textarea name ="notes" rows=2 cols=40><? echo $notes ?></textarea></td></tr>
 <tr><td>Flat Fee Amount</td><td><input type = "text" name ="flatfee_item" value="<? echo $flatfee_item ?>"></td></tr>
