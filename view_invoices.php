@@ -3,7 +3,7 @@ $pagename = "view_invoices";
 require_once ("./login_check.php");
 $output_csv = false;
 if ($_POST['output_csv'] == "on")  $output_csv = true; 
-$only_unpaid="on";
+if ( $_POST['ViewInvoice'] == "" ) $only_unpaid="on";
 if ( !$output_csv ) {
 include_once ("./header.php");
 include_once "client_list_javascript.php";
@@ -159,7 +159,8 @@ if ( $_POST['ViewInvoice'] == "View" || $view_invoice_no != null || $output_csv 
       $lt_row = pg_fetch_assoc ( $invoices_result, $lt );
       $date_diff = date_diff(date_create($lt_row['due_date']), date_create());
       $days_since_invoice = $date_diff->days;
-      if ( $days_since_invoice > 0 && $date_diff->invert ==1 ) echo "<tr>";
+      if ( $lt_row['amount_paid'] >= $lt_row['amount'] ) echo "<tr style=\"background-color:chartreuse\">";
+      else if ( $days_since_invoice > 0 && $date_diff->invert ==1 ) echo "<tr>";
       else if ( $days_since_invoice < 30 ) echo "<tr style=\"background-color:yellow\">";
       else if ( $days_since_invoice < 60 ) echo "<tr style=\"background-color:orange\">";
       else echo "<tr style=\"background-color:red\">";
