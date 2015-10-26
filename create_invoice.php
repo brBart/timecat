@@ -159,7 +159,7 @@ $invoice_amount = 0;
 for ($lt = 0; $lt < pg_numrows($row_entries_result); $lt++) { 
   $lt_row = pg_fetch_assoc ( $row_entries_result, $lt);
   $timekeeper_rate = round (getRateForTimekeeper ($lt_row['timekeeper_email'])  * getMultiplierForClient ($client_name), 2);
-  $bill_line_amount = ($timekeeper_rate * $lt_row['duration'] * $lt_row['writeoff']) + $lt_row['flatfee_item'];
+  $bill_line_amount = ($timekeeper_rate * $lt_row['duration'] * $lt_row['writeoff']) + ($lt_row['flatfee_item'] * $lt_row['writeoff'] );
   $invoice_amount += $bill_line_amount;
 }
 
