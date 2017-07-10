@@ -37,10 +37,10 @@ if ( $flatfee != null && ( $duration != null || $start_time != null || $end_time
 }
 
 if ( $flatfee != null ) {  // entering a flat fee item here
-
+  $flatfee = str_replace (array("$",","),"",$flatfee);  // remove all commas and dollar signs, must be a plain number
   $insert_sql = "INSERT INTO timeentry ( timekeeper_email, client_name, flatfee_item, matter_id, date, description, writeoff, notes ) VALUES ( '$email', '$client_name', $flatfee, '$matter_id', '$date', '$description', $writeoff, '$notes' )";
   $success = pg_query ( $insert_sql );
-  if ( $success == FALSE ) echo "<p><b>Flat fee entry failed.</b><p><script type=\"text/javascript\">alert(\"Flat fee entry failed.\")</script>"; else  "<p><b>Flat fee item entered.</b><p>"; 
+  if ( $success == FALSE ) echo "<p><b>Flat fee entry failed.</b><p><script type=\"text/javascript\">alert(\"Flat fee entry failed.\")</script>$insert_sql"; else echo "<p><b>Flat fee item entered.</b><p>"; 
   } else if ( $start_time != null || $end_time != null ) {
   if ( $end_time != null xor $start_time != null ) {
     echo "You must enter both a start and an end time. <script type=\"text/javascript\">alert(\"You must enter both a start and an end time.\")</script>"; echo "</table>";  include_once ("footer.php"); exit();
