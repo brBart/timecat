@@ -19,12 +19,23 @@ if ( $export_clients  == "Export Clients" ) {
   header("Expires: 0");
   
   $csv_array = array();
-  array_push ($csv_array, $row_titles);
+
+  $headers_array = array();
+  $headers = pg_fetch_assoc ( $row_entries_result, 0 );
+  foreach ( $headers as $key => $value ) array_push ( $headers_array, $key );
+  array_push ( $headers_array, "Largest Timekeeper" );
+  array_push ( $headers_array, "Most Recent Invoice" );
+  array_push ( $csv_array, $headers_array );
+  
+
   for ($lt = 0; $lt < pg_numrows($row_entries_result); $lt++) {
     $db_row = pg_fetch_assoc ( $row_entries_result, $lt );
     $main_timekeeper_res = pg_query ("select timekeeper_email, sum (duration) from timeentry where client_name='". pg_escape_string ($db_row['client_name'] )."' group by timekeeper_email order by sum desc");
     $main_timekeeper = pg_fetch_assoc ($main_timekeeper_res);
-    array_push ( $db_row, $main_timekeeper['timekeeper_email'] );
+    $last_invoice_res = pg_query ("select date from invoices where client_name='".pg_escape_string ($db_row['client_name'] )."' order by date desc limit 1");
+    $last_invoice_date = pg_fetch_assoc ($last_invoice_res);
+    array_push ( $db_row, $main_timekeeper['timekeeper_email'] );    
+    array_push ( $db_row, $last_invoice_date['date'] );    
     array_push ( $csv_array, $db_row );
   }
 
